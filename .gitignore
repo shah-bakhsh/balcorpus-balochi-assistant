@@ -1,0 +1,13 @@
+__pycache__/
+.pytest_cache/
+.venv/
+*.pyc
+*.safetensors
+*.bin
+*.zip
+*.tar.gz
+prepared/
+runs/
+hf-cache/
+.env*
+!.env.example

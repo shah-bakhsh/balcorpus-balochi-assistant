@@ -1,0 +1,11 @@
+{
+  "block_size": 512,
+  "rank": 8,
+  "alpha": 16,
+  "learning_rate": 0.00001,
+  "epochs": 1,
+  "gradient_accumulation_steps": 8,
+  "gradient_checkpointing": true,
+  "seed": 42,
+  "status": "conservative_initial_experiment_NOT_validated_hyperparameters"
+}
