@@ -4,7 +4,7 @@ import spaces
 import gradio as gr
 
 from inference import InferenceEngine
-from serving import prune_session_history
+from serving import generate_chat_reply
 
 # ZeroGPU requires CUDA initialization outside the decorated request function.
 engine = InferenceEngine(device=os.environ.get("BAL_DEVICE", "cuda" if os.environ.get("SPACE_ID") else "cpu"))
@@ -17,10 +17,7 @@ def gpu_reply(message, history, response_length):
 
 def respond(message, history, response_length):
     try:
-        response = gpu_reply(message, history, response_length)
-        # Gradio's state lives in this process; the GPU worker gets a copy.
-        prune_session_history(history)
-        return response
+        return generate_chat_reply(gpu_reply, message, history, response_length)
     except ValueError as exc:
         raise gr.Error(str(exc)) from exc
 

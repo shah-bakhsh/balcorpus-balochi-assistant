@@ -47,6 +47,28 @@ def test_actual_session_is_pruned_before_gradio_appends_the_current_pair():
     assert [r["content"] for r in history] == ["q48", "a48", "q49", "a49", "new", "reply"]
 
 
+def test_invalid_input_is_rejected_before_requesting_a_gpu():
+    from serving import generate_chat_reply
+    def forbidden_gpu(*args):
+        raise AssertionError("GPU must not be requested for invalid input")
+    with pytest.raises(ValueError, match="integer"):
+        generate_chat_reply(forbidden_gpu, "hello", [], 64.5)
+
+
+def test_worker_argument_copy_does_not_prevent_parent_history_pruning():
+    from serving import generate_chat_reply
+    history = []
+    for i in range(50):
+        history += [{"role": "user", "content": f"q{i}"}, {"role": "assistant", "content": f"a{i}"}]
+    def isolated_worker(message, worker_history, limit):
+        copied_history = json.loads(json.dumps(worker_history))
+        assert len(copied_history) == 6
+        copied_history.clear()
+        return "reply"
+    assert generate_chat_reply(isolated_worker, "new", history, 32) == "reply"
+    assert [r["content"] for r in history] == ["q48", "a48", "q49", "a49"]
+
+
 @pytest.mark.parametrize("message", ["", "   ", "x" * 4001, {"text": "file"}, None])
 def test_invalid_or_unbounded_question_is_rejected(message):
     with pytest.raises(ValueError):

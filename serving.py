@@ -45,6 +45,15 @@ def prune_session_history(history):
         history[:] = build_messages("pending", history)[1:-1][-4:]
 
 
+def generate_chat_reply(generate, message, history, response_length):
+    """Validate before GPU allocation and update state in Gradio's process."""
+    limit = validate_generation_length(response_length)
+    messages = build_messages(message, history)
+    response = generate(messages[-1]["content"], messages[1:-1], limit)
+    prune_session_history(history)
+    return response
+
+
 def fit_messages(messages, count_tokens, budget=1024):
     result = list(messages)
     while count_tokens(result) > budget and len(result) > 2:

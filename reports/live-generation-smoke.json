@@ -1,0 +1,35 @@
+{
+  "space_commit": "b3d52ac4e0a3650ea9520a02f266efdc22862abe",
+  "model_commit": "ffd2a9645c7305719c83c79c966177d369ffced5",
+  "test": "live_ZeroGPU_API_generation",
+  "engineering_pass": true,
+  "native_quality_established": false,
+  "not_training_data": true,
+  "samples": [
+    {
+      "prompt": "Write one short greeting in Balochi using Arabic script.",
+      "max_new_tokens": 32,
+      "response": "بلاشواي باروچي 🌸",
+      "elapsed_seconds": 4.609,
+      "synthetic_unreviewed": true,
+      "native_quality_pass": null
+    },
+    {
+      "prompt": "Write one short greeting in Balochi using Latin script.",
+      "max_new_tokens": 32,
+      "response": "لابوالواي باروچي 🌸",
+      "elapsed_seconds": 3.297,
+      "synthetic_unreviewed": true,
+      "native_quality_pass": null
+    }
+  ],
+  "script_following_test": {
+    "request": "Latin script",
+    "observed_script": "Arabic",
+    "passed": false
+  },
+  "browser_chat_successful_turns": 3,
+  "additional_inference_limited_by_free_anonymous_gpu_quota": true,
+  "final_space_commit": "46b7f7ff3aa7348242f78ef14d794a9f64a87d9b",
+  "invalid_generation_limit_rejected_before_gpu": true
+}

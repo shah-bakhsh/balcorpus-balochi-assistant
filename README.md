@@ -40,3 +40,11 @@ The tests verify software behavior using small engineering fixtures, not Balochi
 ## What is still needed
 
 Recruit native reviewers across the intended dialects and scripts; build consented, licensed instruction examples; reserve an independent evaluation set; and compare this checkpoint against its base using fluency, meaning, script following and factuality scores. This v1 is a reproducible starting point, not a claim of a perfect or state-of-the-art Balochi model.
+
+## Release checks
+
+51 software and training-code tests passed. The published adapter was downloaded again and its SHA256 matched the trained file. The live ZeroGPU API returned nonempty responses to two script-specific greeting prompts, and three browser chat turns completed. The Latin-script request produced Arabic script, so script following **failed**. Samples in `reports/live-generation-smoke.json` are synthetic, unreviewed diagnostic outputs and must not be treated as training examples.
+
+Further anonymous inference reached the provider's free GPU runs limit. Open the demo through its Hugging Face Space page and sign in for the quota available to your account; free hosting does not provide unlimited inference. No paid GPU or subscription was selected. Native quality remains unverified.
+
+To deploy the same source to a Gradio Space, copy `app.py`, `inference.py`, `serving.py`, `release.json`, `requirements.txt`, `LICENSE` and `SOURCE_CREDITS.md` to its root, and use `SPACE_README.md` as its `README.md`. The tested deployment uses ZeroGPU and initializes CUDA before entering the GPU worker.
